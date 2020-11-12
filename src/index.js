@@ -11,6 +11,7 @@ import Board from './components/Board'
         this.state = 
         {
             history: [{
+                position: null,
                 squares: Array(9).fill(null),
             }],
             stepNumber: 0,
@@ -29,6 +30,7 @@ import Board from './components/Board'
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             history: history.concat([{
+                position: i,
                 squares: squares
             }]),
             stepNumber: history.length,
@@ -43,6 +45,11 @@ import Board from './components/Board'
         });
     }
 
+    displayPosition(pos)
+    {
+        return " (" + (pos % 3 + 1) + ", " + (Math.floor(pos / 3) + 1) + ")"
+    }
+
     render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
@@ -50,7 +57,7 @@ import Board from './components/Board'
 
       const moves = history.map((step, move) => {
         const desc = move ?
-          'Go to move #' + move :
+          'Go to move #' + move + this.displayPosition(step.position) :
           'Go to game start';
         return (
             <li key={move}>
