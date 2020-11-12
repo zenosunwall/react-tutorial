@@ -79,7 +79,7 @@ import Board from './components/Board'
       const movesDisplay = this.state.historyAscending ? moves : moves.slice().reverse()
 
       let status;
-      if (history.length === 10 && !winner)
+      if (this.state.stepNumber === 9 && !winner)
       {
         status = 'Game goes to the Cat.';
         winnerSquares = [0, 1, 2, 3, 6, 7 ,8];
