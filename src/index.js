@@ -59,9 +59,10 @@ import Board from './components/Board'
         const desc = move ?
           'Go to move #' + move + this.displayPosition(step.position) :
           'Go to game start';
+        const className = move === this.state.stepNumber ? "selected" : "";
         return (
             <li key={move}>
-              <button className={move === this.state.stepNumber ? "selected" : ""} onClick={() => this.jumpTo(move)}>{desc}</button>
+              <button className={className} onClick={() => this.jumpTo(move)}>{desc}</button>
             </li>
         );
       });
