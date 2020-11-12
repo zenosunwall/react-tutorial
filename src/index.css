@@ -52,3 +52,7 @@
   .selected {
       font-weight: bold;
   }
+
+  .highlight {
+      background-color: green;
+  }

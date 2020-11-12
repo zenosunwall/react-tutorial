@@ -37,6 +37,7 @@ import Board from './components/Board'
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext
         });
+        console.log(history.length);
     }
 
     jumpTo(step) {
@@ -61,7 +62,8 @@ import Board from './components/Board'
     render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
-      const winner = calculateWinner(current.squares);
+      let winnerSquares = calculateWinner(current.squares);
+      const winner = winnerSquares ? current.squares[winnerSquares[0]] : null;
 
       const moves = history.map((step, move) => {
         const desc = move ?
@@ -77,11 +79,17 @@ import Board from './components/Board'
       const movesDisplay = this.state.historyAscending ? moves : moves.slice().reverse()
 
       let status;
-      if (winner) {
-          status = 'Winner: ' + winner;
+      if (history.length === 10 && !winner)
+      {
+        status = 'Game goes to the Cat.';
+        winnerSquares = [0, 1, 2, 3, 6, 7 ,8];
+      }
+      else if (winner) 
+      {
+        status = 'Winner: ' + winner;
       } else
       {
-          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
 
       return (
@@ -89,6 +97,7 @@ import Board from './components/Board'
           <div className="game-board">
             <Board 
               squares={current.squares} 
+              winnerSquares={winnerSquares}
               onClick={(i) => this.handleClick(i)}
             />
           </div>
@@ -118,7 +127,7 @@ import Board from './components/Board'
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return lines[i];
       }
     }
     return null;
