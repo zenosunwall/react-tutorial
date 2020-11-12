@@ -15,7 +15,8 @@ import Board from './components/Board'
                 squares: Array(9).fill(null),
             }],
             stepNumber: 0,
-            xIsNext: true
+            xIsNext: true,
+            historyAscending: true
         }
     }
 
@@ -49,6 +50,13 @@ import Board from './components/Board'
     {
         return " (" + (pos % 3 + 1) + ", " + (Math.floor(pos / 3) + 1) + ")"
     }
+    
+    troggle()
+    {
+        this.setState({
+            historyAscending: !this.state.historyAscending
+        })
+    }
 
     render() {
       const history = this.state.history;
@@ -66,6 +74,7 @@ import Board from './components/Board'
             </li>
         );
       });
+      const movesDisplay = this.state.historyAscending ? moves : moves.slice().reverse()
 
       let status;
       if (winner) {
@@ -85,7 +94,10 @@ import Board from './components/Board'
           </div>
           <div className="game-info">
             <div>{ status }</div>
-            <ol>{ moves }</ol>
+            <div>
+                <button onClick={() => this.troggle()}>Reverse History Order</button>
+            </div>
+            <ol>{ movesDisplay }</ol>
           </div>
         </div>
       );
